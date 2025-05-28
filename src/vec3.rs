@@ -39,42 +39,20 @@ impl Display for Vec3 {
     }
 }
 
-//negation 
-impl Neg for Vec3 {
-    type Output = Vec3;
-
-    fn neg(self) -> Vec3 {
-        Vec3::new(-self.x(), -self.y(), -self.z())
-    }
-}
-
 // addition
 impl Add for Vec3 {
     type Output = Vec3;
 
     fn add(self, op: Vec3) -> Vec3 {
-        Vec3::new(self.x() + op.y(), self.y() + op.y(), self.z() + op.z())
+        Vec3::new(self.x() + op.x(), self.y() + op.y(), self.z() + op.z())
     }
 }
+
 
 // addition assignment
 impl AddAssign for Vec3 {
     fn add_assign(&mut self, op: Vec3) {
         *self = *self + op;
-    }
-}
-
-// vec3 *= f32
-impl MulAssign<f32> for Vec3 {
-    fn mul_assign(&mut self, op: f32) {
-        *self = *self * op;
-    }
-}
-
-// vec3 /= f32
-impl DivAssign<f32> for Vec3 {
-    fn div_assign(&mut self, op: f32) {
-        *self = *self/op;
     }
 }
 
@@ -88,6 +66,39 @@ impl Mul<f32> for Vec3 {
             self.y() * op,
             self.z() * op
         )
+    }
+}
+
+// vec3 *= f32
+impl MulAssign<f32> for Vec3 {
+    fn mul_assign(&mut self, op: f32) {
+        *self = *self * op;
+    }
+}
+
+// Vec3 / f32
+impl Div<f32> for Vec3 {
+    type Output = Vec3;
+
+    fn div(self, op: f32) -> Vec3 {
+        Vec3::new(self.x() / op, self.y() / op, self.z() / op)
+    }
+}
+
+// vec3 /= f32
+impl DivAssign<f32> for Vec3 {
+    fn div_assign(&mut self, op: f32) {
+        *self = *self/op;
+    }
+}
+
+
+// negation 
+impl Neg for Vec3 {
+    type Output = Vec3;
+
+    fn neg(self) -> Vec3 {
+        Vec3::new(-self.x(), -self.y(), -self.z())
     }
 }
 
@@ -109,14 +120,7 @@ impl Mul<Vec3> for f32 {
     }
 }
 
-// Vec3 / f32
-impl Div<f32> for Vec3 {
-    type Output = Vec3;
 
-    fn div(self, op: f32) -> Vec3 {
-        Vec3::new(self.x() / op, self.y() / op, self.z() / op)
-    }
-}
 
 pub fn dot(v1: Vec3, v2: Vec3) -> f32 {
     v1.x() * v2.x() + v1.y() * v2.y() + v1.z() * v2.z()
