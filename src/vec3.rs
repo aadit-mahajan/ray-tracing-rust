@@ -48,6 +48,10 @@ impl Vec3{
     pub fn length(&self) -> f32 {
         f32::sqrt(self.length_squared())
     }
+    pub fn near_zero(&self) -> bool {
+        const EPS:f32 = 1e-8;
+        self.e[0].abs() < EPS && self.e[1].abs() < EPS && self.e[2].abs() < EPS
+    }
 
     
 
@@ -78,7 +82,6 @@ impl AddAssign for Vec3 {
     }
 }
 
-// dot product
 impl Mul<f32> for Vec3 {
     type Output = Vec3;
 
@@ -142,7 +145,17 @@ impl Mul<Vec3> for f32 {
     }
 }
 
-
+// Vec3 * Vec3 (element-wise multiplication)
+impl Mul<Vec3> for Vec3 {
+    type Output = Vec3;
+    fn mul(self, v: Vec3) -> Vec3 {
+        Vec3::new(
+            self.x() * v.x(),
+            self.y() * v.y(),
+            self.z() * v.z()
+        )
+    }
+}
 
 pub fn dot(v1: Vec3, v2: Vec3) -> f32 {
     v1.x() * v2.x() + v1.y() * v2.y() + v1.z() * v2.z()
@@ -172,6 +185,10 @@ pub fn random_in_unit_sphere() -> Vec3 {
 
 pub fn random_unit_vector() -> Vec3 {
     unit_vector(random_in_unit_sphere())
+}
+
+pub fn reflect(v: Vec3, n: Vec3) -> Vec3 {
+    v - 2.0 * dot(v, n) * n
 }
 
 
